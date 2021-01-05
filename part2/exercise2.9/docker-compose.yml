@@ -1,0 +1,34 @@
+version: '3.5'  
+
+services: 
+    frontend: 
+      image: exercise1.10
+      ports: 
+        - 5000:5000
+      environment: 
+      - API_URL=http://localhost:8000
+    backend: 
+      image: exercise1.11
+      ports: 
+        - 8000:8000
+      environment: 
+        - FRONT_URL=http://localhost:5000
+        - REDIS=redis
+        - DB_USERNAME=johndoe
+        - DB_PASSWORD=dasjsfbabnfas
+        - DB_HOST=db
+      depends_on: 
+        - db
+    redis:
+      image: redis
+      volumes:
+        - ./redis:/data
+    db:
+      image: postgres
+      restart: always
+      environment:
+        - POSTGRES_USER=johndoe
+        - POSTGRES_PASSWORD=dasjsfbabnfas
+      volumes: 
+      - ./database:/var/lib/postgresql/data
+
